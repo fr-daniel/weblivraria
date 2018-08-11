@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="admin/layout">
+<head>
+    <title>Autores</title>
+</head>
+<body>
+<section layout:fragment="header">
+<h1>Autores</h1>
+<ol class="breadcrumb">
+    <li><a th:href="@{/admin}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    <li class="active">Autores</li>
+</ol>
+</section>
+<div layout:fragment="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Listagem</h3>
+            <div class="box-tools pull-right">
+                <a th:href="@{/admin/autores/add}" type="button" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Adicionar Autor</a>
+                <br clear="all" />
+            </div>
+        </div>
+        <div class="box-body">
+            <form method="GET" th:object="${autorFilter}" th:action="@{/admin/autores}">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label" for="nome">Nome</label>
+                            <input type="text" class="form-control" id="nome" autofocus="autofocus" th:field="*{nome}"/>
+                        </div>
+                    </div>      
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label" for="sobrenome">Sobrenome</label>
+                            <input type="text" class="form-control" id="sobrenome" th:field="*{sobrenome}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label" for="codigo">Código</label>
+                            <input type="text" class="form-control" id="codigo" autofocus="autofocus" th:field="*{id}"/>
+                        </div>
+                    </div>      
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label class="control-label" for="paisOrigem">País de Origem</label>
+                            <input type="text" class="form-control" id="paisOrigem" th:field="*{paisOrigem}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn  btn-primary"><i class="fa fa-search"></i> Pesquisar</button>
+                    </div>
+                </div>
+            </form>     
+            <br/>    
+            <th:block th:replace="admin/fragments/mensagem-sucesso :: mensagemSucesso"></th:block>
+            <div class="table-responsive  bw-tabela-simples">
+                    <table class="table  table-hover">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Código</th>
+                                <th>Nome Completo</th>
+                                <th>País</th>
+                                <th>Gêneros Literários</th>
+                                <th class="table-col-acoes"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="autor : ${pagina.conteudo}">                    
+                                <th><img th:src="${autor.urlThumbnailFoto}" alt="aa"/></th>
+                                <td th:text="${autor.id}"></td>
+                                <td th:text="${autor.nomeCompleto}"></td>
+                                <td th:text="${autor.paisOrigem}"></td>
+                                <td th:text="${autor.generosLiterarios}"></td>
+                               
+                                 <td class="text-center">
+                                    <a class="btn  btn-link  btn-xs" title="Editar" th:href="@{/admin/autores/{codigo}(codigo=${autor.id})}"> 
+                                        <i class="glyphicon glyphicon-pencil"></i>
+                                    </a>
+                                    <a class="btn  btn-link  btn-xs" title="Excluir" th:href="@{/admin/autores/delete/{codigo}(codigo=${autor.id})}"> 
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr th:if="${pagina.vazia}">
+                                <td colspan="6">Nenhum autor encontrado</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+        <div class="box-footer clearfix">
+            <th:block th:replace="admin/fragments/paginacao :: paginacao"></th:block>
+        </div>
+    </div>
+</div>
+</body>
+</html>

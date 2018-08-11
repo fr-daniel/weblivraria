@@ -1,0 +1,42 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html 
+    xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="site/layout">
+<head>
+    <title>Home</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <div class="container">
+        <nav class="mb-1 mt-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">Home</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Autores</li>
+            </ol>
+        </nav>
+    </div>
+       
+    <div class="container">
+        <div class=" border-bottom border-dark mb-3">
+            <span th:text="${#lists.size(autores) + ' resultados'}"></span>
+        </div>
+    
+        <div class="row">
+            <div class="col-md-3 col-sm-6 mb-3" th:each="autor : ${autores}">
+                <div class="card-banner" th:style="'height:300px; background-image:url(' + ${autor.urlFoto} + ');'">
+                    <article class="overlay bottom text-center">
+                        <h5 class="card-title" th:text="${autor.nomeCompleto}"></h5>
+                        <a th:href="@{/autores/{idUrl}(idUrl=${autor.idUrl})}" class="btn btn-warning btn-sm"> Ver perfil </a>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

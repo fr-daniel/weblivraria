@@ -1,0 +1,33 @@
+<script id="tabela-pesquisa-rapida-livro" type="text/x-handlebars-template">
+    <br/>
+    <p class="mt-4 text-light-blue">
+        <i class="fa fa-info-circle"></i> Clique no livro para selecionar.
+    </p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Título</th>
+                <th>Edição</th>
+                <th>Ano</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#if lista}} 
+            {{#each lista}}
+            <tr data-codigo="{{id}}" data-titulo="{{titulo}}" class="js-livro-pesquisa-rapida">
+                <td>{{id}}</td>
+                <td>{{titulo}}</td>
+                <td>{{edicao}}</td>
+                <td>{{anoLancamento}}</td>
+            </tr>
+            {{/each}} 
+            {{else}}
+            <tr>
+                <td colspan="2">Nenhuma livro encontrado, clique
+                    <a href="/admin/livros/add" target="_blakc">aqui</a> para adicionar.</td>
+            </tr>
+            {{/if}}
+        </tbody>
+    </table>
+</script>

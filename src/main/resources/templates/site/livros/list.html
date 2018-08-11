@@ -1,0 +1,89 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html 
+    xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="site/layout">
+<head>
+    <title>Home</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <div class="container">
+        <nav class="mb-1 mt-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">Home</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Livros</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-2 col-sm-2"></div>
+            <div class="col-lg-8 col-sm-8 mb-2">
+                <form th:action="@{/livros/search}" method="GET" class="search-wrap">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control" placeholder="Pesquisar"/>
+                        <div class="input-group-append">
+                          <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-search"></i>
+                          </button>
+                        </div>
+                    </div>
+                </form> <!-- search-wrap .end// -->
+            </div> <!-- col.// -->
+            <div class="col-lg-8 col-sm-8"></div>
+
+        </div>
+    </div>
+       
+    <div class="container">
+        <div class=" border-bottom border-dark mb-3">
+            <span th:text="${#lists.size(livros) + ' resultados'}"></span>
+        </div>
+    
+        <div class="row">
+            <div class="col-md-3 col-sm-6" th:each="livro : ${livros}">
+             
+                    <figure class="card card-product">
+                        <div class="img-wrap">
+                            <img th:src="${livro.urlFoto}" />
+                        </div>
+                        <figcaption class="info-wrap">
+                            <h4 class="title" th:text="${livro.titulo}"></h4>
+                            <div class="label-rating">132 vizualizações</div>
+                            <div class="label-rating">154 compras </div>
+                            <div class="rating-wrap">
+                                <ul class="rating-stars">
+                                    <li style="width:80%" class="stars-active">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </figcaption>
+                        <div class="bottom-wrap">
+                            <a th:href="@{/livros/{idUrl}(idUrl = ${livro.idUrl})}" class="btn btn-sm btn-primary btn-block"><i class="fa fa-eye"></i>  Ver detalhes</a>
+                        </div>
+                    </figure>
+               
+            </div>
+            </div>
+       
+</div>
+
+</div>
+</body>
+</html>

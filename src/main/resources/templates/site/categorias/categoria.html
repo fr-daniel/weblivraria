@@ -1,0 +1,39 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html 
+    xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="site/layout">
+<head>
+    <title>Home</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <div class="jumbotron bg-info text-white">
+        <div class="col-sm-8 mx-auto text-center">
+            <h1 class="display-3" th:text="${categoria.titulo}"></h1>
+            <p th:utext="${categoria.descricao}"></p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="padding-y-sm border-bottom border-dark mb-3">
+            <span th:text="${#lists.size(categoria.livros) + ' resultados'}"></span>
+        </div>
+    
+        <div class="row">
+            <div class="col-md-3 col-sm-6" th:each="livro : ${categoria.livros}">
+                <figure class="card card-product">
+                    <div class="img-wrap">
+                        <img th:src="${livro.urlFoto}" />
+                    </div>
+                    <figcaption class="info-wrap">
+                        <a th:href="@{/livros/{codigo}(codigo=${livro.idUrl})}" class="title" th:text="${livro.titulo}"></a>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

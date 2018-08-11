@@ -1,0 +1,107 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html 
+    xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="site/layout">
+<head>
+    <title>Home</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <div class="container">
+        <nav class="mb-1 mt-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a th:href="@{/}">Home</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <a th:href="@{/editoras}">Editoras</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="${editora.nome}"></li>
+            </ol>
+        </nav>
+    </div>
+ 
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="row  no-gutters">
+                    <div class="col-md-12">
+                        <img th:src="${editora.urlFoto}" style="max-width: 100%" alt=""/>
+                    </div>
+                </div>
+                <div class="row no-padding mt-2">
+                    <div class="col-md-12">
+                        <div class="box">
+                           <h2 class="text-center" th:text="${editora.nome}"></h2>
+                            <dl class="">
+                                <dt>Site: </dt>
+                                <dd th:text="${editora.urlSite}"></dd>
+                            </dl>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 col-sm-6">
+                <div class="card mb-3">
+                    <header class="card-header">
+                        <a href="#" data-toggle="collapse" data-target="#collapse11" aria-expanded="true" class="">
+                            <i class="icon-action fa fa-chevron-down"></i>
+                            <h6 class="title">Sobre </h6>
+                        </a>
+                    </header>
+                    <div class="collapse show" id="collapse11" style="">
+                        <article class="card-body">
+                            <th:block th:utext="${editora.descricao}"></th:block>
+                        </article>
+                    </div>
+                </div>    
+            </div>
+        </div>
+    </div>
+    
+    <div class="container mt-4">
+        <h4 class="title-text" th:text="${'Livros publicados por ' + editora.nome}"></h4>
+    
+        <div class="owl-carousel slide-items" data-items="4" data-margin="20" data-dots="true" data-nav="true">
+            <div class="item-slide" th:each="livro,iter : ${editora.livros}">
+                <figure class="card card-product">
+                    <div class="img-wrap">
+                        <img th:src="${livro.urlFoto}" />
+                    </div>
+                    <figcaption class="info-wrap">
+                        <h4 class="title" th:text="${livro.titulo}"></h4>
+                        <div class="label-rating">132 vizualizações</div>
+                        <div class="label-rating">154 compras </div>
+                        <div class="rating-wrap">
+                            <ul class="rating-stars">
+                                <li style="width:80%" class="stars-active">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </li>
+                                <li>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </li>
+                            </ul>
+                        </div>
+                    </figcaption>
+                    <div class="bottom-wrap">
+                        <a th:href="@{/livros/{idUrl}(idUrl = ${livro.idUrl})}" class="btn btn-sm btn-primary btn-block"><i class="fa fa-eye"></i>  Ver detalhes</a>
+                    </div>
+                </figure>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

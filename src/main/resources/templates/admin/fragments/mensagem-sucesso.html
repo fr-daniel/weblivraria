@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org">	
+	<div th:fragment="mensagemSucesso" class="callout callout-success" th:if="${not #strings.isEmpty(mensagem)}">
+	    <div>
+	        <i class="fa fa-check-circle"></i> <span th:text="${mensagem}"></span>
+	    </div>
+	</div>
+</html>

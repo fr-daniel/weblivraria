@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="admin/layout">
+<head>
+    <title>Categorias</title>
+</head>
+<body>
+<section layout:fragment="header">
+<h1>Categorias</h1>
+<ol class="breadcrumb">
+    <li><a th:href="@{/admin}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    <li class="active">Categorias</li>
+</ol>
+</section>
+<div layout:fragment="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Listagem</h3>
+            <div class="box-tools pull-right">
+                <a th:href="@{/admin/categorias/add}" type="button" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Adicionar Editora</a>
+                <br clear="all" />
+            </div>
+        </div>
+        <div class="box-body">
+            <form method="GET" th:object="${categoriaFilter}" th:action="@{/admin/categorias}">
+                <div class="row">    
+                    <div class="col-sm-8">
+                        <label class="control-label" for="titulo">Título</label>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="titulo" th:field="*{titulo}"/>
+                                <span class="input-group-btn">
+                                        <button type="submit" class="btn  btn-primary"><i class="fa fa-search"></i> Pesquisar</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            </form>     
+            <br/>    
+            <th:block th:replace="admin/fragments/mensagem-sucesso :: mensagemSucesso"></th:block>
+            <div class="table-responsive  bw-tabela-simples">
+                    <table class="table  table-hover">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Nome</th>
+                                <th>URL</th>
+                                <th class="table-col-acoes"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="categoria : ${pagina.conteudo}">                    
+                                <td th:text="${categoria.id}"></td>
+                                <td th:text="${categoria.titulo}"></td>
+                                <td th:text="${categoria.idUrl}"></td>
+                               
+                                 <td class="text-center">
+                                    <a class="btn  btn-link  btn-xs" title="Editar" th:href="@{/admin/categorias/{codigo}(codigo=${categoria.id})}"> 
+                                        <i class="glyphicon glyphicon-pencil"></i>
+                                    </a>
+                                    <a class="btn  btn-link  btn-xs" title="Excluir" th:href="@{/admin/categorias/delete/{codigo}(codigo=${categoria.id})}"> 
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr th:if="${pagina.vazia}">
+                                <td colspan="6">Nenhum categoria encontrada</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+        <div class="box-footer clearfix">
+            <th:block th:replace="admin/fragments/paginacao :: paginacao"></th:block>
+        </div>
+    </div>
+</div>
+</body>
+</html>

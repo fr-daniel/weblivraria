@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="admin/layout">
+<head>
+    <title>Cadastro Editora</title>
+</head>
+<body>
+
+<th:block layout:fragment="bloco-css">
+    <link rel="stylesheet" th:href="@{/css/upload.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/wl-style.css}" />
+</th:block>
+
+<section layout:fragment="header">
+    <h1>Cadastro Editora</h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active">Cadastro de Editora</li>
+    </ol>
+</section>
+
+<div layout:fragment="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Formulário</h3>
+            <div class="box-tools pull-right">
+                <a href="/admin/editoras" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+            </div>
+        </div>
+        <form data-toggle="validator" role="form" th:object="${editora}" th:action="@{/admin/editoras/save}" method="post">
+            <div class="box-body">
+                
+                <th:block th:replace="admin/fragments/mensagem-erro-validacao :: mensagemValidacao"></th:block>
+                <th:block th:replace="admin/fragments/mensagem-sucesso :: mensagemSucesso"></th:block>
+
+                <input type="hidden" th:field="*{id}"/>
+
+                <div class="row">
+            			<div class="col-md-12">
+              				<div class="form-group" th:classappend="${#fields.hasErrors('nome')} ? has-error">
+			                    <label for="nome" class="control-label wl-required">Nome</label>
+			                    <input type="text" class="form-control" th:field="*{nome}" id="nome" />
+                			</div>
+                		</div>
+                </div>
+
+                <div class="row">
+            			<div class="col-md-12">
+              				<div class="form-group" th:classappend="${#fields.hasErrors('descricao')} ? has-error">
+			                    <label for="nome">Descrição</label>
+                                <textarea class="textarea" th:field="*{descricao}" placeholder="Digite alguma descrição aqui"
+                          style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                            </div>
+                		</div>
+                </div>
+
+                <div class="row">
+                        <div class="form-group  col-sm-12">
+                            <input type="hidden" th:field="*{foto}"/>
+                            <input type="hidden" th:field="*{contentType}"/>
+                            <input type="hidden" th:field="*{novaFoto}"/>
+                            <input type="hidden" th:field="*{urlFoto}"/>
+                        
+                            <label class="control-label">Foto</label>
+                            
+                            <div class="js-container-foto-upload" th:attr="data-url-fotos='/fotos'">
+                                <div id="upload-drop" class="uk-placeholder text-center">
+                                    <img th:src="@{/img/mini-loading.gif}" class="js-img-loading  hidden"/>
+                                    <i class="glyphicon  glyphicon-cloud-upload"></i>
+                                    <span>Arraste a foto aqui ou </span>
+                                    <a class="uk-form-file">selecione <input id="upload-select" type="file" accept=".jpg,.jpeg,.png"/></a>
+                                </div>
+                            </div>
+                            
+                        </div>
+                </div>
+
+                <div class="row">
+            			<div class="col-md-12">
+              				<div class="form-group" th:classappend="${#fields.hasErrors('urlSite')} ? has-error">
+			                    <label for="siteEditora" class="control-label required">Site Editora</label>
+			                    <input type="text" class="form-control" placeholder="http://www" th:field="*{urlSite}" id="siteEditora" />
+                			</div>
+                		</div>
+                </div>
+                
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+    </div>
+    <th:block th:replace="admin/hbs/foto-upload"></th:block>
+</div>
+
+<th:block layout:fragment="bloco-js">
+	<script th:src="@{/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js}"></script>
+	<script>
+		$(function() {
+            $('.textarea').wysihtml5();
+		});
+    </script>
+    <script th:src="@{/js/vendors/uikit.min.js}"></script>
+    <script th:src="@{/js/vendors/upload.min.js}"></script>
+    <script th:src="@{/js/vendors/handlebars.min.js}"></script>
+	<script th:src="@{/js/upload-foto.js}"></script>
+ </th:block>
+</body>
+</html>

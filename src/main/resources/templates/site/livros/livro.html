@@ -1,0 +1,227 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html 
+    xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="site/layout">
+<head>
+    <title>Home</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <section class="section-content bg padding-y-sm">
+        <div class="container">
+            <nav class="mb-3 mt-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a th:href="@{/}">Home</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a th:href="@{/livros}">Livros</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page" th:text="${livro.titulo}"></li>
+                </ol>
+            </nav>
+
+            <div class="row">
+                <div class="col-xl-9 col-md-8 col-sm-12">
+                    <main class="card">
+                        <div class="row ">
+                            <aside class="col-sm-5 border-right" style="padding-right: 0; padding-bottom: 0;">
+                                <article class="gallery-wrap">
+                                    <div class="img-big-wrap">
+                                        <div>
+                                            <a th:href="${livro.urlFoto}" target="_blank" data-fancybox="">
+                                                <img th:src="${livro.urlFoto}" />
+                                            </a>
+                                        </div>
+                                    </div>
+                    
+
+                                </article>
+                                <!-- gallery-wrap .end// -->
+                            </aside>
+                            <aside class="col-sm-7">
+                                <article class="card-body">
+                                    <!-- short-info-wrap -->
+                                    <h3 class="title mb-3" th:text="${livro.titulo}">Original Version of Some product name</h3>
+
+                                    <dl>
+                                            <dt>Autores</dt>
+                                            <dd><p> <span th:each="autor, iterStat  : ${livro.autores}" th:text="${iterStat.last} ? ${autor.sobrenome}+', ' + ${autor.nome} : ${autor.sobrenome}+', ' + ${autor.nome} + ' / '"></span>
+                                            </p></dd>
+                                          </dl>
+
+                                    <dl class="row">
+                                        <dt class="col-sm-3">Editora</dt>
+                                        <dd class="col-sm-9">
+                                            <a th:href="@{/editoras/{idUrl}(idUrl = ${livro.editora.IdUrl})}" th:text="${livro.editora.nome}"></a>
+                                        </dd>
+
+                                        <dt class="col-sm-3">Idioma</dt>
+                                        <dd class="col-sm-9" th:text="${livro.idioma}"> </dd>
+
+                                        <dt class="col-sm-3">Categorias</dt>
+                                        <dd class="col-sm-9">
+                                            <span th:each="categoria, iterStat  : ${livro.categorias}" th:text="${iterStat.last} ? ${categoria.titulo} : ${categoria.titulo} + ','"></span>
+                                        </dd>
+                                    </dl>
+
+                                    <hr/>
+                                    <div class="row">
+
+
+                                        <div class="card">
+                                            <table class="table table-responsive table-hover shopping-cart-wrap">
+                                                <thead class="text-muted">
+                                                    <tr>
+                                                        <th scope="col" width="200">Preco</th>
+                                                        <th scope="col" width="200">Ação</th>
+                                                        <th scope="col" width="200">Quantidade</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="oferta : ${livro.ofertas}">
+
+                                                        <td>
+                                                            <div class="price-wrap">
+                                                                <span class="price" th:text="${#numbers.formatDecimal(oferta.preco, 0, 'POINT', 2, 'COMMA')}"></span>
+                                                                <small class="text-muted">R$</small>
+                                                            </div>
+                                                            <!-- price-wrap .// -->
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control">
+                                                                <option>1</option>
+                                                                <option>2</option>
+                                                                <option>3</option>
+                                                                <option>4</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <a title="" href="" class="btn btn-outline-success" data-toggle="tooltip" data-original-title="Adicionar ao Carrinho">
+                                                                <i class="fa fa-shopping-cart"></i> Carrinho</a>
+
+                                                        </td>
+                                                    </tr>
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                    <!-- row.// -->
+
+                                    <!-- short-info-wrap .// -->
+                                </article>
+                                <!-- card-body.// -->
+                            </aside>
+                            <!-- col.// -->
+                        </div>
+                        <!-- row.// -->
+                    </main>
+                    <!-- card.// -->
+
+                    <!-- PRODUCT DETAIL -->
+                    <article class="card mt-3">
+                        <div class="card-body">
+                            <h4>Resumo</h4>
+                            <th:block th:utext="${livro.resumo}"></th:block>
+                        </div>
+                        <!-- card-body.// -->
+                    </article>
+                    <!-- card.// -->
+
+                    <!-- PRODUCT DETAIL .// -->
+
+                    <div class="card mt-3">
+                            <header class="card-header">
+                                <a href="#" data-toggle="collapse" data-target="#collapse22">
+                                    <i class="icon-action fa fa-chevron-down"></i>
+                                    <h6 class="title">Características</h6>
+                                </a>
+                            </header>
+                            <div class="collapse show" id="collapse22">
+                                <article class="card-body">
+                                        <table class="table table-striped">
+                                                <tbody>
+                                                <tr>
+                                                    <td>ISBN</td>
+                                                    <td th:text="${livro.isbn}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Quantidade de páginas</td>
+                                                    <td th:text="${livro.qtdPaginas}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Peso</td>
+                                                    <td th:text="${livro.peso}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Altura</td>
+                                                    <td th:text="${livro.altura}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Largura</td>
+                                                    <td th:text="${livro.largura}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Ano de lançamento</td>
+                                                    <td th:text="${livro.anoLancamento}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Idioma</td>
+                                                    <td th:text="${livro.idioma}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Marca</td>
+                                                    <td th:text="${livro.editora.nome}"></td>
+                                                </tr>
+                                                </tbody>
+                                              </table>
+                                </article>
+                                <!-- card-body.// -->
+                            </div>
+                            <!-- collapse .// -->
+                        </div>
+                </div>
+                <!-- col // -->
+                <aside class="col-xl-3 col-md-4 col-sm-12">
+
+                    <div class="card">
+                        <div class="card-header">
+                            Autores
+                        </div>
+                        <div class="card-body row">
+                            <div class="col-md-12 col-sm-3">
+                                <figure class="item border-bottom mb-3" th:each="autor : ${livro.autores}">
+                                    <a href="#" class="img-wrap">
+                                        <img th:src="${autor.urlThumbnailFoto}" class="img-thumbnail" />
+                                    </a>
+                                    <figcaption class="info-wrap text-center">
+                                        <a th:href="@{/autores/{idUrl}(idUrl = ${autor.idUrl})}" class="title" th:text="${autor.nomeCompleto}"></a>
+
+                                    </figcaption>
+                                </figure>
+                                <!-- card-product // -->
+                            </div>
+                            <!-- col.// -->
+
+                        </div>
+                        <!-- card-body.// -->
+                    </div>
+                    <!-- card.// -->
+                </aside>
+                <!-- col // -->
+            </div>
+            <!-- row.// -->
+
+        </div>
+
+      
+        <!-- container // -->
+    </section>
+</div>
+
+</body>
+</html>

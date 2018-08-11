@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="admin/layout">
+<head>
+    <title>Cadastro Ofertas</title>
+</head>
+<body>
+
+<th:block layout:fragment="bloco-css">
+    <link rel="stylesheet" th:href="@{/css/vendors/bootstrap-switch.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/wl-style.css}" />
+</th:block>
+
+<section layout:fragment="header">
+    <h1>Cadastro Ofertas</h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active">Cadastro de Ofertas</li>
+    </ol>
+</section>
+
+<div layout:fragment="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Formulário</h3>
+            <div class="box-tools pull-right">
+                <a href="/admin/ofertas" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+            </div>
+        </div>
+        <form data-toggle="validator" role="form" th:object="${oferta}" th:action="@{/admin/ofertas/save}" method="post">
+            <div class="box-body">
+                <th:block th:replace="admin/fragments/mensagem-erro-validacao :: mensagemValidacao"></th:block>
+                <th:block th:replace="admin/fragments/mensagem-sucesso :: mensagemSucesso"></th:block>
+                <input type="hidden" id="id" th:field="*{id}"/>
+
+                <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group" th:classappend="${#fields.hasErrors('livro')} ? has-error">
+                                <label class="control-label wl-required" for="livro">Livro</label>
+                                <div class="input-group">
+                                    <input type="hidden" id="codigoLivroVal" th:field="*{livro}"/>
+                                    <input type="text" class="form-control" th:value="${oferta.livro}? ${oferta.livro.titulo} : ''" id="tituloLivroVal" readonly="readonly" />
+                                    <span class="input-group-btn">
+                                        <button type="button" data-toggle="modal" data-target="#pesquisaRapidaLivros" class="btn  btn-primary">
+                                            <i class="fa fa-search"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group" th:classappend="${#fields.hasErrors('preco')} ? has-error">
+                            <label for="titulo" class="control-label wl-required">Preço</label>
+                            <input type="number" step="0.01" class="form-control" th:field="*{preco}" id="preco" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" th:classappend="${#fields.hasErrors('quantidadeEstoque')} ? has-error">
+                            <label for="titulo" class="control-label wl-required">Quantidade Estoque</label>
+                            <input type="number" step="1" class="form-control" th:field="*{quantidadeEstoque}" id="titulo" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                        <div class="form-group  col-sm-3">
+                            <label class="control-label">Status da Oferta</label>
+                            <div>
+                                <input type="checkbox" class="js-status" data-size="small" data-off-color="danger" data-on-text="Ativo" data-off-text="Inativo"
+                                 th:field="*{ativo}" />
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+    </div>
+    <th:block th:replace="admin/livros/pesquisa-rapida :: pesquisaRapidaLivros"></th:block>
+</div>
+
+<th:block layout:fragment="bloco-js">
+    <script th:src="@{/js/vendors/bootstrap-switch.min.js}"></script>
+	<script>
+        $('.js-status').bootstrapSwitch();
+    </script>
+    <script th:src="@{/js/vendors/handlebars.min.js}"></script>
+    <script th:src="@{/js/livro.pesquisa-rapida.js}"></script>
+ </th:block>
+</body>
+</html>

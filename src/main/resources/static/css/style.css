@@ -1,0 +1,109 @@
+body {
+    background-color: #F8F9FA;
+}
+.navbar {
+    padding: 0 1em;
+}
+
+.nav-item {
+    padding: 0.5em 1em;
+    margin: 0.1em;
+    border-bottom: 5px solid darkgray;
+}
+
+.oferta-color {
+    border-color: #FC8236;
+}
+
+.autor-color {
+    border-color: #41B9E3;
+}
+
+.autor-color:hover {
+    border-color: rgb(43, 126, 156);
+}
+
+.editora-color {
+    border-color: #F9C442;
+}
+
+.livro-color {
+    border-color: #964984;
+}
+
+footer ul {
+    list-style: none;
+}
+
+footer ul .titulo {
+    color: #138496;
+    font-weight: bold;
+}  
+
+footer ul a, footer ul a:hover {
+    color: white;
+}
+
+.divider-text {
+    position: relative;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.divider-text span {
+    padding: 7px;
+    font-size: 12px;
+    position: relative;   
+    z-index: 2;
+}
+.divider-text:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    top: 55%;
+    left: 0;
+    z-index: 1;
+}
+
+
+.card-product:after {
+    content: "";
+    display: table;
+    clear: both;
+    visibility: hidden; }
+  .card-product .price-new, .card-product .price {
+    margin-right: 5px; }
+  .card-product .price-old {
+    color: #999; }
+  
+    .card-product .img-wrap {
+    border-radius: 3px 3px 0 0;
+    overflow: hidden;
+    position: relative;
+    text-align: center; 
+    }
+
+    .card-product .img-wrap img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: cover; 
+    }
+      
+      .card-product .info-wrap {
+    overflow: hidden;
+    padding: 15px;
+    border-top: 1px solid #eee; }
+  .card-product .action-wrap {
+    padding-top: 4px;
+    margin-top: 4px; }
+  .card-product .bottom-wrap {
+    padding: 15px;
+    border-top: 1px solid #eee; }
+  .card-product .title {
+    margin-top: 0; }
+
+.label-rating {
+    padding: 0;
+}
+

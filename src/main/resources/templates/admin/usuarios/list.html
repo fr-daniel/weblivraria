@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+    xmlns:data="http://www.thymeleaf.org/extras/data"
+    layout:decorator="admin/layout">
+<head>
+    <title>Usuários</title>
+</head>
+<body>
+<th:block layout:fragment="bloco-css">
+    <link rel="stylesheet" th:href="@{/plugins/iCheck/all.css}" />
+</th:block>
+
+<section layout:fragment="header">
+    <h1>Usuários</h1>
+    <ol class="breadcrumb">
+        <li><a th:href="@{/admin}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active">Usuários</li>
+    </ol>
+</section>
+
+<div layout:fragment="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Listagem</h3>
+            <div class="box-tools pull-right">
+                <a th:href="@{/admin/usuarios/add}" type="button" class="btn btn-sm btn-success"><i class="fa fa-plus"> Adicionar novo</i></a>
+                <br clear="all"/>
+            </div>
+        </div>
+       
+        <div class="box-body">
+            <form method="GET" th:object="${usuarioFilter}" th:action="@{/admin/usuarios}">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label" for="nome">Nome</label>
+                            <input type="text" class="form-control" id="nome" autofocus="autofocus" th:field="*{nome}"/>
+                        </div>
+                    </div>      
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label" for="email">Sobrenome</label>
+                            <input type="text" class="form-control" id="sobrenome" th:field="*{sobrenome}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label" for="nome">Email</label>
+                            <input type="text" class="form-control" id="nome" autofocus="autofocus" th:field="*{email}"/>
+                        </div>
+                    </div>  
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label" for="email">CPF</label>
+                            <input type="text" placeholder="___.___.___-__" class="form-control" id="cpf" th:field="*{cpf}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="control-label">Grupos</label>
+						    <div>
+								<th:block th:each="grupo : ${grupos}">
+									<input type="checkbox" class="minimal"   th:value="${grupo.id}" th:field="*{grupos}"/>
+									<label th:for="${#ids.prev('grupos')}" th:text="${grupo.nome}"> Administrador</label>
+									</th:block>
+							</div>
+						</div>
+					</div>
+				</div>	
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn  btn-primary"><i class="fa fa-search"></i> Pesquisar</button>
+                    </div>
+                </div>
+            </form>     
+            <br/>
+            <div class="table-responsive  bw-tabela-simples">
+                <table class="table  table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>CPF</th>
+                            <th>Grupo</th>
+                            <th>Status</th>
+                             <th class="table-col-acoes"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="usuario : ${pagina.conteudo}">
+                            <td th:text="${usuario.nome}"></td>
+                            <td th:text="${usuario.email}"></td>
+                            <td th:text="${usuario.cpf}"></td>
+                            <td>
+                                <span th:each="grupo : ${usuario.grupos}" th:text="|${grupo.nome}${grupoStat.last ? '' : ', '}|"></span>
+                            </td>
+                            <td>
+                                <th:block th:if="${usuario.ativo}">
+                                    <span class="label  label-success">Ativo</span>
+                                </th:block>
+                                <th:block th:if="${not usuario.ativo}">
+                                    <span class="label  label-danger">Inativo</span>
+                                </th:block>
+                            </td>
+                             <td class="text-center">
+                                <a class="btn  btn-link  btn-xs" title="Editar" th:href="@{/admin/usuarios/{codigo}(codigo=${usuario.codigo})}"> 
+                                    <i class="glyphicon glyphicon-pencil"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${pagina.vazia}">
+                            <td colspan="6">Nenhum usuário encontrado</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="box-footer clearfix">
+            <th:block th:replace="admin/fragments/paginacao :: paginacao"></th:block>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="bloco-js">
+	<script th:src="@{/plugins/input-mask/jquery.inputmask.js}"></script>
+	<script>
+		$('#cpf').inputmask("999.999.999-99");
+	</script>
+	<script th:src="@{/plugins/iCheck/icheck.min.js}"></script>
+	<script>
+		$('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+		checkboxClass: 'icheckbox_minimal-blue',
+		radioClass   : 'iradio_minimal-blue'
+		});
+	</script>
+ </th:block>
+</body>
+</html>

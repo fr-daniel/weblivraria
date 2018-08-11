@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="admin/layout">
+<head>
+    <title>Livros</title>
+</head>
+<body>
+<section layout:fragment="header">
+<h1>Livros</h1>
+<ol class="breadcrumb">
+    <li><a th:href="@{/admin}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    <li class="active">Livros</li>
+</ol>
+</section>
+<div layout:fragment="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Listagem</h3>
+            <div class="box-tools pull-right">
+                <a th:href="@{/admin/livros/add}" type="button" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Adicionar livro</a>
+                <br clear="all" />
+            </div>
+        </div>
+        <div class="box-body">
+            <form method="GET" th:object="${livroFilter}" th:action="@{/admin/livros}">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label class="control-label" for="titulo">Título</label>
+                            <input type="text" class="form-control" id="titulo" autofocus="autofocus" th:field="*{titulo}"/>
+                        </div>
+                    </div>      
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label" for="isbn">ISBN</label>
+                            <input type="text" class="form-control" id="isbn" th:field="*{isbn}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label class="control-label" for="codigo">Código</label>
+                            <input type="text" class="form-control" id="codigo" autofocus="autofocus" th:field="*{id}"/>
+                        </div>
+                    </div>      
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label class="control-label" for="anoLancamento">Ano de Lançamento</label>
+                            <input type="text" class="form-control" id="anoLancamento" th:field="*{anoLancamento}"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label" for="editora">Editora</label>
+                            <input type="text" class="form-control" id="editora" th:field="*{editora}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn  btn-primary"><i class="fa fa-search"></i> Pesquisar</button>
+                    </div>
+                </div>
+            </form>     
+            <br/>    
+            <th:block th:replace="admin/fragments/mensagem-sucesso :: mensagemSucesso"></th:block>
+            <div class="table-responsive  bw-tabela-simples">
+                <table class="table  table-hover">
+                    <thead>
+                        <tr>
+                            <th>Capa</th>
+                            <th>Código</th>
+                            <th>Título</th>
+                            <th>ISBN</th>
+                            <th>Ano</th>
+                            <th>Editora</th>
+                            <th class="table-col-acoes"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="livro : ${pagina.conteudo}">                    
+                            <th><img th:src="${livro.urlThumbnailFoto}" alt="aa"/></th>
+                            <td th:text="${livro.id}"></td>
+                            <td th:text="${livro.titulo}"></td>
+                            <td th:text="${livro.isbn}"></td>
+                            <td th:text="${livro.anoLancamento}"></td>
+                            <td th:text="${livro.editora.nome}"></td>
+                           
+                             <td class="text-center">
+                                <a class="btn  btn-link  btn-xs" title="Editar" th:href="@{/admin/livros/{codigo}(codigo=${livro.id})}"> 
+                                    <i class="glyphicon glyphicon-pencil"></i>
+                                </a>
+                                <a class="btn  btn-link  btn-xs" title="Excluir" th:href="@{/admin/livros/delete/{codigo}(codigo=${livro.id})}"> 
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${pagina.vazia}">
+                            <td colspan="6">Nenhum livro encontrado</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="box-footer clearfix">
+            <th:block th:replace="admin/fragments/paginacao :: paginacao"></th:block>
+        </div>
+    </div>
+</div>
+</body>
+</html>

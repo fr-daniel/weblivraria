@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="admin/layout">
+<head>
+    <title>Categorias</title>
+</head>
+<body>
+<section layout:fragment="header">
+<h1>Ofertas</h1>
+<ol class="breadcrumb">
+    <li><a th:href="@{/admin}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    <li class="active">Ofertas</li>
+</ol>
+</section>
+<div layout:fragment="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Listagem</h3>
+            <div class="box-tools pull-right">
+                <a th:href="@{/admin/ofertas/add}" type="button" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Adicionar Ofertas</a>
+                <br clear="all" />
+            </div>
+        </div>
+        <div class="box-body">
+            <form method="GET" th:object="${ofertaFilter}" th:action="@{/admin/categorias}">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label" for="titulo">Código</label>
+                            <input type="text" class="form-control" id="id" autofocus="autofocus" th:field="*{id}"/>
+                        </div>
+                    </div>      
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label class="control-label" for="isbn">Livro</label>
+                            <input type="text" class="form-control" id="livro" th:field="*{livro}"/>
+                        </div>
+                    </div>
+                </div>   
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Preço</label>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <input type="text" placeholder="Mínimo" class="form-control" id="precoMin" th:field="*{precoMin}"/>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" placeholder="Máximo" class="form-control" id="precoMax" th:field="*{precoMax}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>      
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Quantidade Estoque</label>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <input type="text" placeholder="Mínimo" class="form-control" id="estoqueMin" th:field="*{estoqueMin}"/>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" placeholder="Máximo" class="form-control" id="estoqueMax" th:field="*{estoqueMax}"/>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
+                </div>  
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn  btn-primary"><i class="fa fa-search"></i> Pesquisar</button>
+                    </div>
+                </div>  
+            </form> 
+            <br/>    
+            <th:block th:replace="admin/fragments/mensagem-sucesso :: mensagemSucesso"></th:block>
+            <div class="table-responsive  bw-tabela-simples">
+                    <table class="table  table-hover">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Livro</th>
+                                <th>Preço</th>
+                                <th>Quantidade Estoque</th>
+                                <th>Status</th>
+                                <th class="table-col-acoes"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="oferta : ${pagina.conteudo}">                    
+                                <td th:text="${oferta.id}"></td>
+                                <td th:text="${oferta.livro.titulo}"></td>
+                                <td th:text="${oferta.preco}"></td>
+                                <td th:text="${oferta.quantidadeEstoque}"></td>
+                                <td>
+                                    <th:block th:if="${oferta.ativo}">
+                                        <span class="label  label-success">Ativo</span>
+                                    </th:block>
+                                    <th:block th:if="${not oferta.ativo}">
+                                        <span class="label  label-danger">Inativo</span>
+                                    </th:block>
+                                </td>
+                                 <td class="text-center">
+                                    <a class="btn  btn-link  btn-xs" title="Excluir" th:href="@{/admin/ofertas/delete/{codigo}(codigo=${oferta.id})}"> 
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr th:if="${pagina.vazia}">
+                                <td colspan="6">Nenhum oferta encontrada</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+        <div class="box-footer clearfix">
+            <th:block th:replace="admin/fragments/paginacao :: paginacao"></th:block>
+        </div>
+    </div>
+</div>
+</body>
+</html>

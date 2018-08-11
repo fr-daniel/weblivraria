@@ -1,0 +1,18 @@
+
+/*
+###################
+# UTILIDADES
+##################
+*/
+
+label.wl-required::after {
+    content: "*";
+}
+
+.fade {
+    display: none;
+}
+
+.show {
+    display: block;
+}

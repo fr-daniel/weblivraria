@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+    
+<div class="table-responsive" th:fragment="tabelaAutores">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Código</th>
+                <th>Nome Completo</th>
+                <th>País</th>
+                <th class="table-col-acoes"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="autor : ${autores}">                    
+                <th><img th:src="${autor.urlThumbnailFoto}" alt="aa"/></th>
+                <td th:text="${autor.id}"></td>
+                <td th:text="${autor.nomeCompleto}"></td>
+                <td th:text="${autor.paisOrigem}"></td>
+                <td class="text-center">
+                     <button type="button" class="btn btn-link btn-xs js-btn-excluir-autor-livro" th:attr="data-id-autor-livro=${autor.id}">
+                            <i class="glyphicon glyphicon-remove"></i>
+                     </button>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(autores)}">
+                <td colspan="5">Nenhum autor encontrado</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</html>

@@ -1,0 +1,29 @@
+<script id="tabela-pesquisa-rapida-editora" type="text/x-handlebars-template">
+    <br/>
+    <p class="mt-4 text-light-blue">
+        <i class="fa fa-info-circle"></i> Clique na editora para selecionar.
+    </p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nome</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#if lista}} 
+            {{#each lista}}
+            <tr data-codigo="{{id}}" data-nome="{{nome}}" class="js-editora-pesquisa-rapida">
+                <td>{{id}}</td>
+                <td>{{nome}}</td>
+            </tr>
+            {{/each}} 
+            {{else}}
+            <tr>
+                <td colspan="2">Nenhuma editora encontrada, clique
+                    <a href="/admin/editoras/add" target="_blakc">aqui</a> para adicionar.</td>
+            </tr>
+            {{/if}}
+        </tbody>
+    </table>
+</script>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="admin/layout">
+<head>
+    <title>Cadastro Livro</title>
+</head>
+<body>
+
+<th:block layout:fragment="bloco-css">
+    <link rel="stylesheet" th:href="@{/css/upload.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/vendors/easy-autocomplete.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/wl-style.css}" />
+</th:block>
+
+<section layout:fragment="header">
+    <h1 th:if="${livro.novo}">Cadastro de Livro</h1>
+	<h1 th:unless="${livro.novo}" th:text="${'Edição do livro: ' + livro.titulo}"></h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active" th:text="${livro.novo} ? 'Cadastro de Livro' : 'Edição de Livro'"></li>
+    </ol>
+</section>
+
+<div layout:fragment="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Formulário</h3>
+            <div class="box-tools pull-right">
+                <a href="/admin/autores" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+            </div>
+        </div>
+        <form data-toggle="validator" role="form" th:object="${livro}" th:action="@{/admin/livros/save}" method="post">
+            <div class="box-body">
+                
+                <th:block th:replace="admin/fragments/mensagem-erro-validacao :: mensagemValidacao"></th:block>
+                <th:block th:replace="admin/fragments/mensagem-sucesso :: mensagemSucesso"></th:block>
+    
+                <input type="hidden" id="id" th:field="*{id}"/>
+                <input type="hidden" id="uuid" th:field="*{uuid}"/>
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#livros" data-toggle="tab" aria-expanded="false">Livro</a></li>
+                        <li class=""><a href="#caracteristicas" data-toggle="tab" aria-expanded="false">Características</a></li>
+                        <li class=""><a href="#frete" data-toggle="tab" aria-expanded="true">Dados para o Frete</a></li>
+                        <li class=""><a href="#autores" data-toggle="tab" aria-expanded="true">Autores</a></li>
+                        <li class=""><a href="#categorias" data-toggle="tab" aria-expanded="true">Categorias</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="livros">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group" th:classappend="${#fields.hasErrors('titulo')} ? has-error">
+                                        <label for="nome" class="control-label wl-required">Título</label>
+                                        <input type="text" class="form-control" th:field="*{titulo}" id="titulo" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group  col-sm-12">
+                                    <input type="hidden" th:field="*{foto}" />
+                                    <input type="hidden" th:field="*{contentType}" />
+                                    <input type="hidden" th:field="*{novaFoto}" />
+                                    <input type="hidden" th:field="*{urlFoto}" />
+                                
+                                    <label class="control-label">Capa</label>
+                                
+                                    <div class="js-container-foto-upload" th:attr="data-url-fotos='/fotos'">
+                                        <div id="upload-drop" class="uk-placeholder text-center">
+                                            <img th:src="@{/img/mini-loading.gif}" class="js-img-loading  hidden" />
+                                            <i class="glyphicon  glyphicon-cloud-upload"></i>
+                                            <span>Arraste a foto aqui ou </span>
+                                            <a class="uk-form-file">selecione
+                                                <input id="upload-select" type="file" accept=".jpg,.jpeg,.png" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                    <div class="col-md-12">
+                                          <div class="form-group" th:classappend="${#fields.hasErrors('resumo')} ? has-error">
+                                            <label for="resumo">Resumo</label>
+                                            <textarea class="textarea" id="resumo" th:field="*{resumo}" placeholder="Digite um resumo do livro aqui"
+                                      style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                                        </div>
+                                    </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group" th:classappend="${#fields.hasErrors('editora')} ? has-error">
+                                        <label class="control-label wl-required" for="editora">Editora</label>
+                                        <div class="input-group">
+                                            <input type="hidden" id="codigoEditoraVal" th:field="*{editora}"/>
+                                            <input type="text" class="form-control" th:value="${livro.editora}? ${livro.editora.nome} : ''" id="nomeEditoraVal" readonly="readonly" />
+                                            <span class="input-group-btn">
+                                                <button type="button" data-toggle="modal" data-target="#pesquisaRapidaEditoras" class="btn  btn-primary">
+                                                    <i class="fa fa-search"></i></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                
+                        </div>
+                        <div class="tab-pane" id="caracteristicas">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group" th:classappend="${#fields.hasErrors('isbn')} ? has-error">
+                                        <label for="isbn" class="control-label wl-required">ISBN</label>
+                                        <input type="text" class="form-control" th:field="*{isbn}" id="isbn" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" th:classappend="${#fields.hasErrors('idioma')} ? has-error">
+                                        <label for="idioma" class="control-label wl-required">Idioma</label>
+                                        <input type="text" class="form-control" th:field="*{idioma}" id="idioma" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group" th:classappend="${#fields.hasErrors('edicao')} ? has-error">
+                                        <label for="edicao" class="control-label wl-required">Edição</label>
+                                        <input type="text" class="form-control" th:field="*{edicao}" id="edicao" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" th:classappend="${#fields.hasErrors('anoLancamento')} ? has-error">
+                                        <label for="anoLancamento" class="control-label wl-required">Ano de Lançamento</label>
+                                        <input type="text" class="form-control" th:field="*{anoLancamento}" id="anoLancamento" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" th:classappend="${#fields.hasErrors('qtdPaginas')} ? has-error">
+                                        <label for="qtdPaginas" class="control-label wl-required">Quantidade de Páginas</label>
+                                        <input type="text" class="form-control" th:field="*{qtdPaginas}" id="qtdPaginas" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="frete">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group" th:classappend="${#fields.hasErrors('peso')} ? has-error">
+                                        <label for="peso" class="control-label wl-required">Peso</label>
+                                        <input type="text" class="form-control" th:field="*{peso}" id="peso" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" th:classappend="${#fields.hasErrors('altura')} ? has-error">
+                                        <label for="altura" class="control-label wl-required">Altura</label>
+                                        <input type="text" class="form-control" th:field="*{altura}" id="altura" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" th:classappend="${#fields.hasErrors('largura')} ? has-error">
+                                        <label for="largura" class="control-label wl-required">Largura</label>
+                                        <input type="text" class="form-control" th:field="*{largura}" id="largura" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="autores">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <input type="text" id="nomeOrSobrenomeAutorInput" class="form-control" placeholder="Pesquise e adicione os autores pelo nome ou sobrenome" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js-tabela-autores-container">
+                                <th:block th:replace="admin/livros/tabela-autores-livro :: tabelaAutores"></th:block>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="categorias">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <input type="text" id="tituloCategoriaInput" class="form-control" placeholder="Pesquise e adicione as categorias pelo título" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js-tabela-categorias-container">
+                                <th:block th:replace="admin/livros/tabela-categorias-livro :: tabelaCategorias"></th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>     
+                * Campos Obrigatórios.
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+    </div>
+    <th:block th:replace="admin/hbs/foto-upload"></th:block>
+    <th:block th:replace="admin/editoras/pesquisa-rapida :: pesquisaRapidaEditoras"></th:block>
+</div>
+
+<th:block layout:fragment="bloco-js">
+	<script th:src="@{/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js}"></script>
+	<script>
+		$(function() {
+            $('.textarea').wysihtml5();
+		});
+    </script>
+    <script th:src="@{/js/vendors/uikit.min.js}"></script>
+    <script th:src="@{/js/vendors/upload.min.js}"></script>
+    <script th:src="@{/js/vendors/handlebars.min.js}"></script>
+    <script th:src="@{/js/vendors/jquery.easy-autocomplete.min.js}"></script>
+    <script th:src="@{/js/upload-foto.js}"></script>
+    <script th:src="@{/js/editora.pesquisa-rapida.js}"></script>
+    <script th:src="@{/js/autor-autocomplete.js}"></script>
+    <script th:src="@{/js/autor-tabela.js}"></script>
+    <script th:src="@{/js/categoria-autocomplete.js}"></script>
+    <script th:src="@{/js/categoria-tabela.js}"></script>
+ </th:block>
+</body>
+</html>
